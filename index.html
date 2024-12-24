@@ -96,6 +96,7 @@
         <br>
         <button onclick="verificarSenha()">Entrar</button>
         <p id="errorMessage" class="hidden">Senha incorreta ou campo vazio!</p>
+        <p id="listMessage" class="hidden">Participantes: Amanda, Caio, Jaque, Lucas, Marcelo, Molina, Sabrina, Thiago, Yan</p>
     </div>
 
     <div id="gameScreen" class="hidden">
@@ -253,7 +254,17 @@
             { id: 87, name: "Benção 87", numbers: [6, 9, 18, 23, 45, 51] },
             { id: 88, name: "Benção 88", numbers: [7, 13, 20, 28, 34, 57] },
             { id: 89, name: "Benção 89", numbers: [8, 11, 16, 33, 55, 61] },
-            { id: 90, name: "Benção 90", numbers: [3, 22, 38, 40, 51, 59] }
+            { id: 90, name: "Benção 90", numbers: [3, 22, 38, 40, 51, 59] },
+            { id: 91, name: "Benção 90", numbers: [7, 23, 25, 49, 53, 58] },
+            { id: 92, name: "Benção 92", numbers: [10, 13, 24, 49, 51, 54] },
+            { id: 93, name: "Benção 93", numbers: [3, 18, 24, 35, 41, 60] },
+            { id: 94, name: "Benção 94", numbers: [2, 9, 14, 30, 28, 56] },
+            { id: 95, name: "Benção 95", numbers: [4, 17, 32, 35, 51, 59] },
+            { id: 96, name: "Benção 96", numbers: [8, 19, 23, 35, 42, 60] },
+            { id: 97, name: "Benção 97", numbers: [2, 10, 15, 21, 38, 53] },
+            { id: 98, name: "Benção 98", numbers: [7, 23, 33, 48, 52, 60] },
+            { id: 99, name: "Benção 99", numbers: [5, 16, 24, 37, 31, 53] },
+            { id: 100, name: "Benção 100", numbers: [1, 16, 36, 43, 50, 54] }
         ];
 
         let jogosAtuais = [];
@@ -261,13 +272,16 @@
         function verificarSenha() {
             const senha = document.getElementById("passwordInput").value;
             const errorMessage = document.getElementById("errorMessage");
+            const listMessage = document.getElementById("listMessage");
 
             if (senha === "carmarenha") {
                 jogosAtuais = jogosGloria;
                 errorMessage.classList.add("hidden");
+                listMessage.classList.add("hidden");
             } else if (senha === "core") {
                 jogosAtuais = jogosEinstein;
                 errorMessage.classList.add("hidden");
+                listMessage.classList.remove("hidden");
             } else {
                 errorMessage.classList.remove("hidden");
                 return;
