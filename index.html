@@ -48,12 +48,6 @@
             border: 2px solid #ccc;
             border-radius: 5px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        input[type="password"] {
-            width: 250px;
-            text-align: left;
-            padding: 10px;
         }
         input:focus {
             border-color: #4CAF50;
@@ -68,12 +62,9 @@
             color: white;
             border: none;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
         }
         button:hover {
             background-color: #45a049;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
         .hidden {
             display: none;
@@ -85,7 +76,9 @@
             border: 2px solid #ddd;
             border-radius: 10px;
             background-color: white;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        .password-input{
+            width: 300px !important;
         }
         #errorMessage {
             color: red;
@@ -99,7 +92,7 @@
 
     <div id="passwordScreen" class="password-box">
         <h2>Digite a senha para acessar os jogos:</h2>
-        <input type="password" id="passwordInput" placeholder="Digite a senha..." oninput="verificarApagar()">
+        <input type="password" id="passwordInput"  class="password-input" placeholder="Digite a senha...">
         <br>
         <button onclick="verificarSenha()">Entrar</button>
         <p id="errorMessage" class="hidden">Senha incorreta ou campo vazio!</p>
@@ -120,6 +113,7 @@
         <table id="mockedGamesTable">
             <thead>
                 <tr>
+                    <th>Id</th>
                     <th>Nome</th>
                     <th>Número 1</th>
                     <th>Número 2</th>
@@ -135,55 +129,138 @@
 
     <script>
         const jogosGloria = [
-             { name: "ARIANE", numbers: [7, 16, 23, 32, 45, 51] },
-            { name: "ARIANE", numbers: [4, 9, 21, 43, 47, 56] },
-            { name: "ARIANE", numbers: [6, 17, 26, 32, 47, 55] },
-            { name: "ARIANE", numbers: [7, 11, 17, 32, 42, 51] },
-            { name: "CAIO", numbers: [2, 20, 31, 36, 40, 45] },
-            { name: "CAIO", numbers: [5, 18, 25, 30, 45, 50] },
-            { name: "CAIO", numbers: [23, 28, 30, 31, 40, 50] },
-            { name: "CAIO", numbers: [2, 5, 6, 10, 11, 16] },
-            { name: "DAVID", numbers: [5, 24, 30, 45, 47, 59] },
-            { name: "DAVID", numbers: [8, 12, 16, 29, 49, 58] },
-            { name: "DAVID", numbers: [27, 38, 40, 46, 52, 58] },
-            { name: "DAVID", numbers: [12, 22, 30, 44, 52, 55] },
-            { name: "GILMAR", numbers: [17, 21, 24, 33, 39, 55] },
-            { name: "GILMAR", numbers: [4, 6, 11, 22, 35, 40] },
-            { name: "GILMAR", numbers: [9, 16, 19, 29, 33, 39] },
-            { name: "GILMAR", numbers: [7, 12, 18, 29, 45, 49] },
-            { name: "JESSICA", numbers: [3, 19, 29, 38, 44, 52] },
-            { name: "JESSICA", numbers: [4, 22, 26, 47, 55, 60] },
-            { name: "JESSICA", numbers: [11, 28, 35, 40, 49, 58] },
-            { name: "JESSICA", numbers: [5, 10, 23, 31, 42, 53] },
-            { name: "RITON", numbers: [6, 7, 12, 26, 31, 38] },
-            { name: "RITON", numbers: [3, 6, 33, 38, 45, 51] },
-            { name: "RITON", numbers: [2, 8, 15, 22, 41, 47] },
-            { name: "RITON", numbers: [2, 11, 16, 32, 40, 55] },
-            { name: "TONY", numbers: [7, 15, 23, 25, 42, 44] },
-            { name: "TONY", numbers: [6, 13, 17, 24, 31, 45] },
-            { name: "TONY", numbers: [4, 10, 38, 43, 45, 59] },
-            { name: "TONY", numbers: [8, 17, 21, 23, 49, 60] },
-            { name: "VICTOR", numbers: [3, 10, 13, 26, 38, 45] },
-            { name: "VICTOR", numbers: [1, 9, 10, 32, 36, 49] },
-            { name: "VICTOR", numbers: [18, 23, 26, 35, 53, 60] },
-            { name: "VICTOR", numbers: [2, 5, 18, 32, 43, 53] }
+            { "id": 1, "name": "ARIANE", "numbers": [7, 16, 23, 32, 45, 51] },
+            { "id": 2, "name": "ARIANE", "numbers": [4, 9, 21, 43, 47, 56] },
+            { "id": 3, "name": "ARIANE", "numbers": [6, 17, 26, 32, 47, 55] },
+            { "id": 4, "name": "ARIANE", "numbers": [7, 11, 17, 32, 42, 51] },
+            { "id": 5, "name": "CAIO", "numbers": [2, 20, 31, 36, 40, 45] },
+            { "id": 6, "name": "CAIO", "numbers": [5, 18, 25, 30, 45, 50] },
+            { "id": 7, "name": "CAIO", "numbers": [23, 28, 30, 31, 40, 50] },
+            { "id": 8, "name": "CAIO", "numbers": [2, 5, 6, 10, 11, 16] },
+            { "id": 9, "name": "DAVID", "numbers": [5, 24, 30, 45, 47, 59] },
+            { "id": 10, "name": "DAVID", "numbers": [8, 12, 16, 29, 49, 58] },
+            { "id": 11, "name": "DAVID", "numbers": [27, 38, 40, 46, 52, 58] },
+            { "id": 12, "name": "DAVID", "numbers": [12, 22, 30, 44, 52, 55] },
+            { "id": 13, "name": "GILMAR", "numbers": [17, 21, 24, 33, 39, 55] },
+            { "id": 14, "name": "GILMAR", "numbers": [4, 6, 11, 22, 35, 40] },
+            { "id": 15, "name": "GILMAR", "numbers": [9, 16, 19, 29, 33, 39] },
+            { "id": 16, "name": "GILMAR", "numbers": [7, 12, 18, 29, 45, 49] },
+            { "id": 17, "name": "JESSICA", "numbers": [3, 19, 29, 38, 44, 52] },
+            { "id": 18, "name": "JESSICA", "numbers": [4, 22, 26, 47, 55, 60] },
+            { "id": 19, "name": "JESSICA", "numbers": [11, 28, 35, 40, 49, 58] },
+            { "id": 20, "name": "JESSICA", "numbers": [5, 10, 23, 31, 42, 53] },
+            { "id": 21, "name": "RITON", "numbers": [6, 7, 12, 26, 31, 38] },
+            { "id": 22, "name": "RITON", "numbers": [3, 6, 33, 38, 45, 51] },
+            { "id": 23, "name": "RITON", "numbers": [2, 8, 15, 22, 41, 47] },
+            { "id": 24, "name": "RITON", "numbers": [2, 11, 16, 32, 40, 55] },
+            { "id": 25, "name": "TONY", "numbers": [7, 15, 23, 25, 42, 44] },
+            { "id": 26, "name": "TONY", "numbers": [6, 13, 17, 24, 31, 45] },
+            { "id": 27, "name": "TONY", "numbers": [4, 10, 38, 43, 45, 59] },
+            { "id": 28, "name": "TONY", "numbers": [8, 17, 21, 23, 49, 60] },
+            { "id": 29, "name": "VICTOR", "numbers": [3, 10, 13, 26, 38, 45] },
+            { "id": 30, "name": "VICTOR", "numbers": [1, 9, 10, 32, 36, 49] },
+            { "id": 31, "name": "VICTOR", "numbers": [18, 23, 26, 35, 53, 60] },
+            { "id": 32, "name": "VICTOR", "numbers": [2, 5, 18, 32, 43, 53] }
         ];
 
         const jogosEinstein = [
-            { name: "MARCOS", numbers: [3, 9, 15, 28, 35, 49] },
-            { name: "ANA", numbers: [1, 17, 23, 41, 48, 60] }
+            { id: 1, name: "Benção 1", numbers: [24, 34, 42, 57, 58, 60] },
+            { id: 2, name: "Benção 2", numbers: [6, 25, 30, 38, 46, 59] },
+            { id: 3, name: "Benção 3", numbers: [7, 9, 28, 43, 47, 55] },
+            { id: 4, name: "Benção 4", numbers: [11, 16, 24, 34, 39, 47] },
+            { id: 5, name: "Benção 5", numbers: [1, 9, 15, 27, 38, 43] },
+            { id: 6, name: "Benção 6", numbers: [8, 12, 29, 34, 47, 53] },
+            { id: 7, name: "Benção 7", numbers: [5, 27, 31, 44, 58, 59] },
+            { id: 8, name: "Benção 8", numbers: [13, 16, 39, 44, 54, 57] },
+            { id: 9, name: "Benção 9", numbers: [2, 11, 13, 34, 41, 42] },
+            { id: 10, name: "Benção 10", numbers: [13, 17, 29, 38, 41, 55] },
+            { id: 11, name: "Benção 11", numbers: [30, 36, 42, 46, 51, 52] },
+            { id: 12, name: "Benção 12", numbers: [14, 20, 28, 29, 51, 54] },
+            { id: 13, name: "Benção 13", numbers: [7, 20, 29, 36, 57, 60] },
+            { id: 14, name: "Benção 14", numbers: [11, 17, 20, 49, 58, 59] },
+            { id: 15, name: "Benção 15", numbers: [5, 24, 34, 47, 53, 56] },
+            { id: 16, name: "Benção 16", numbers: [11, 17, 30, 40, 41, 43] },
+            { id: 17, name: "Benção 17", numbers: [21, 29, 31, 34, 45, 54] },
+            { id: 18, name: "Benção 18", numbers: [3, 7, 10, 40, 50, 57] },
+            { id: 19, name: "Benção 19", numbers: [19, 27, 30, 36, 42, 51] },
+            { id: 20, name: "Benção 20", numbers: [3, 10, 31, 34, 55, 58] },
+            { id: 21, name: "Benção 21", numbers: [13, 23, 30, 37, 42, 45] },
+            { id: 22, name: "Benção 22", numbers: [9, 12, 17, 20, 39, 47] },
+            { id: 23, name: "Benção 23", numbers: [1, 25, 30, 35, 36, 49] },
+            { id: 24, name: "Benção 24", numbers: [12, 18, 37, 45, 46, 60] },
+            { id: 25, name: "Benção 25", numbers: [2, 9, 14, 32, 54, 57] },
+            { id: 26, name: "Benção 26", numbers: [11, 22, 28, 31, 40, 47] },
+            { id: 27, name: "Benção 27", numbers: [2, 24, 28, 36, 49, 59] },
+            { id: 28, name: "Benção 28", numbers: [3, 7, 30, 32, 37, 53] },
+            { id: 29, name: "Benção 29", numbers: [7, 25, 27, 29, 32, 38] },
+            { id: 30, name: "Benção 30", numbers: [9, 29, 33, 39, 44, 54] },
+            { id: 31, name: "Benção 31", numbers: [18, 27, 36, 46, 48, 59] },
+            { id: 32, name: "Benção 32", numbers: [4, 21, 30, 34, 43, 57] },
+            { id: 33, name: "Benção 33", numbers: [2, 20, 27, 34, 42, 57] },
+            { id: 34, name: "Benção 34", numbers: [17, 29, 40, 46, 52, 55] },
+            { id: 35, name: "Benção 35", numbers: [5, 12, 17, 22, 36, 54] },
+            { id: 36, name: "Benção 36", numbers: [12, 18, 24, 35, 39, 51] },
+            { id: 37, name: "Benção 37", numbers: [15, 29, 30, 32, 35, 44] },
+            { id: 38, name: "Benção 38", numbers: [5, 6, 21, 26, 47, 54] },
+            { id: 39, name: "Benção 39", numbers: [2, 18, 21, 22, 42, 57] },
+            { id: 40, name: "Benção 40", numbers: [7, 16, 25, 26, 46, 49] },
+            { id: 41, name: "Benção 41", numbers: [15, 16, 28, 36, 46, 55] },
+            { id: 42, name: "Benção 42", numbers: [5, 14, 35, 39, 54, 55] },
+            { id: 43, name: "Benção 43", numbers: [7, 30, 41, 44, 54, 57] },
+            { id: 44, name: "Benção 44", numbers: [13, 24, 40, 51, 53, 54] },
+            { id: 45, name: "Benção 45", numbers: [6, 17, 31, 34, 36, 44] },
+            { id: 46, name: "Benção 46", numbers: [4, 24, 26, 31, 54, 58] },
+            { id: 47, name: "Benção 47", numbers: [2, 7, 23, 32, 44, 60] },
+            { id: 48, name: "Benção 48", numbers: [10, 19, 41, 43, 50, 53] },
+            { id: 49, name: "Benção 49", numbers: [15, 22, 25, 29, 38, 42] },
+            { id: 50, name: "Benção 50", numbers: [2, 13, 30, 34, 37, 47] },
+            { id: 51, name: "Benção 51", numbers: [15, 27, 35, 41, 42, 46] },
+            { id: 52, name: "Benção 52", numbers: [6, 8, 15, 28, 43, 52] },
+            { id: 53, name: "Benção 53", numbers: [13, 14, 19, 21, 33, 47] },
+            { id: 54, name: "Benção 54", numbers: [9, 20, 31, 41, 43, 53] },
+            { id: 55, name: "Benção 55", numbers: [4, 17, 23, 31, 32, 40] },
+            { id: 56, name: "Benção 56", numbers: [10, 22, 34, 37, 46, 51] },
+            { id: 57, name: "Benção 57", numbers: [3, 11, 19, 30, 55, 59] },
+            { id: 58, name: "Benção 58", numbers: [11, 13, 17, 40, 41, 47] },
+            { id: 59, name: "Benção 59", numbers: [1, 30, 39, 43, 44, 53] },
+            { id: 60, name: "Benção 60", numbers: [20, 27, 28, 30, 46, 47] },
+            { id: 61, name: "Benção 61", numbers: [5, 31, 35, 42, 48, 60] },
+            { id: 62, name: "Benção 62", numbers: [3, 12, 18, 38, 47, 58] },
+            { id: 63, name: "Benção 63", numbers: [24, 27, 38, 51, 53, 59] },
+            { id: 64, name: "Benção 64", numbers: [7, 29, 37, 42, 52, 59] },
+            { id: 65, name: "Benção 65", numbers: [2, 16, 27, 44, 45, 57] },
+            { id: 66, name: "Benção 66", numbers: [8, 13, 16, 26, 32, 54] },
+            { id: 67, name: "Benção 67", numbers: [22, 45, 48, 52, 55, 59] },
+            { id: 68, name: "Benção 68", numbers: [1, 14, 24, 25, 43, 57] },
+            { id: 69, name: "Benção 69", numbers: [13, 37, 38, 40, 46, 53] },
+            { id: 70, name: "Benção 70", numbers: [8, 18, 25, 54, 57, 60] },
+            { id: 71, name: "Benção 71", numbers: [18, 23, 38, 41, 44, 47] },
+            { id: 72, name: "Benção 72", numbers: [7, 11, 30, 39, 45, 51] },
+            { id: 73, name: "Benção 73", numbers: [16, 19, 23, 27, 39, 57] },
+            { id: 74, name: "Benção 74", numbers: [9, 10, 19, 22, 40, 56] },
+            { id: 75, name: "Benção 75", numbers: [7, 23, 27, 28, 40, 58] },
+            { id: 76, name: "Benção 76", numbers: [12, 17, 18, 22, 25, 27] },
+            { id: 77, name: "Benção 77", numbers: [6, 12, 22, 45, 56, 60] },
+            { id: 78, name: "Benção 78", numbers: [11, 17, 18, 21, 28, 51] },
+            { id: 79, name: "Benção 79", numbers: [6, 11, 19, 21, 29, 40] },
+            { id: 80, name: "Benção 80", numbers: [28, 30, 33, 46, 58, 60] },
+            { id: 81, name: "Benção 81", numbers: [11, 26, 27, 49, 50, 52] },
+            { id: 82, name: "Benção 82", numbers: [2, 34, 39, 55, 56, 60] },
+            { id: 83, name: "Benção 83", numbers: [7, 8, 15, 22, 27, 48] },
+            { id: 84, name: "Benção 84", numbers: [2, 6, 9, 10, 15, 48] },
+            { id: 85, name: "Benção 85", numbers: [1, 5, 12, 13, 20, 35] },
+            { id: 86, name: "Benção 86", numbers: [1, 4, 6, 7, 33, 43] },
+            { id: 87, name: "Benção 87", numbers: [6, 9, 18, 23, 45, 51] },
+            { id: 88, name: "Benção 88", numbers: [7, 13, 20, 28, 34, 57] },
+            { id: 89, name: "Benção 89", numbers: [8, 11, 16, 33, 55, 61] },
+            { id: 90, name: "Benção 90", numbers: [3, 22, 38, 40, 51, 59] }
         ];
 
         let jogosAtuais = [];
 
         function verificarSenha() {
             const senha = document.getElementById("passwordInput").value;
-            const gameScreen = document.getElementById("gameScreen");
-            const passwordScreen = document.getElementById("passwordScreen");
             const errorMessage = document.getElementById("errorMessage");
-
-            // Esconde a tabela sempre que a senha for errada
-            document.getElementById("mockedGamesBody").innerHTML = '';
 
             if (senha === "gloria") {
                 jogosAtuais = jogosGloria;
@@ -196,22 +273,39 @@
                 return;
             }
             
-            passwordScreen.classList.add("hidden");
-            gameScreen.classList.remove("hidden");
+            document.getElementById("passwordScreen").classList.add("hidden");
+            document.getElementById("gameScreen").classList.remove("hidden");
             renderTable();
         }
 
-        const tableBody = document.getElementById("mockedGamesBody");
-
         function renderTable() {
+            const tableBody = document.getElementById("mockedGamesBody");
             tableBody.innerHTML = '';
+
             jogosAtuais.forEach(game => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
+                const row = `<tr>
+                    <td>${game.id}</td>
                     <td>${game.name}</td>
                     ${game.numbers.map(num => `<td>${num}</td>`).join('')}
-                `;
-                tableBody.appendChild(row);
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function verificarNumeros() {
+            const inputs = Array.from({ length: 6 }, (_, i) =>
+                parseInt(document.getElementById(`num${i + 1}`).value)
+            );
+
+            document.querySelectorAll("#mockedGamesBody tr").forEach(row => {
+                const cells = row.querySelectorAll("td:nth-child(n+3)"); // Ignora a coluna "Nome"
+                
+                cells.forEach(cell => {
+                    cell.classList.remove("hit");
+                    if (inputs.includes(parseInt(cell.innerText))) {
+                        cell.classList.add("hit");
+                    }
+                });
             });
         }
     </script>
