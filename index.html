@@ -129,8 +129,6 @@
     </div>
 
     <script>
-        const jogosGloria = [];
-
         const jogosEinstein = [
             { id: 1, name: "Benção 1", numbers: [24, 34, 42, 57, 58, 60] },
             { id: 2, name: "Benção 2", numbers: [6, 25, 30, 38, 46, 59] },
@@ -251,11 +249,7 @@
             const errorMessage = document.getElementById("errorMessage");
             const listMessage = document.getElementById("listMessage");
 
-            if (senha === "carmarenha") {
-                jogosAtuais = jogosGloria;
-                errorMessage.classList.add("hidden");
-                listMessage.classList.add("hidden");
-            } else if (senha === "core") {
+            if (senha === "core") {
                 jogosAtuais = jogosEinstein;
                 errorMessage.classList.add("hidden");
                 listMessage.classList.remove("hidden");
@@ -289,7 +283,7 @@
             );
 
             document.querySelectorAll("#mockedGamesBody tr").forEach(row => {
-                const cells = row.querySelectorAll("td:nth-child(n+3)"); // Ignora a coluna "Nome"
+                const cells = row.querySelectorAll("td:nth-child(n+3)");
                 
                 cells.forEach(cell => {
                     cell.classList.remove("hit");
