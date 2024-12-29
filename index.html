@@ -111,6 +111,23 @@
         </div>
         <button onclick="verificarNumeros()">Verificar</button>
 
+        <h2>Resultados</h2>
+        <table id="resultTable" class="hidden">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nome</th>
+                    <th>Número 1</th>
+                    <th>Número 2</th>
+                    <th>Número 3</th>
+                    <th>Número 4</th>
+                    <th>Número 5</th>
+                    <th>Número 6</th>
+                </tr>
+            </thead>
+            <tbody id="resultBody"></tbody>
+        </table>
+
         <table id="mockedGamesTable">
             <thead>
                 <tr>
@@ -248,7 +265,17 @@
             const senha = document.getElementById("passwordInput").value;
             const errorMessage = document.getElementById("errorMessage");
             const listMessage = document.getElementById("listMessage");
+            const inputs = document.querySelectorAll("#gameScreen input[type='number']");
+            const passwordInput = document.getElementById("passwordInput");
 
+            resultBody.innerHTML = '';
+            resultTable.classList.add("hidden");
+
+            inputs.forEach(input => {
+                input.value = '';
+            });
+
+            passwordInput.value = '';
             if (senha === "core") {
                 jogosAtuais = jogosEinstein;
                 errorMessage.classList.add("hidden");
@@ -282,9 +309,34 @@
                 parseInt(document.getElementById(`num${i + 1}`).value)
             );
 
+            const resultBody = document.getElementById("resultBody");
+            const resultTable = document.getElementById("resultTable");
+
+            resultBody.innerHTML = '';
+            resultTable.classList.add("hidden");
+
+            let encontrouAcertos = false;
+
+            jogosAtuais.forEach(game => {
+                const matches = game.numbers.filter(num => inputs.includes(num));
+                if (matches.length >= 4) {
+                    encontrouAcertos = true;
+                    const row = `<tr>
+                        <td>${game.id}</td>
+                        <td>${game.name}</td>
+                        ${game.numbers.map(num => `<td class="${inputs.includes(num) ? 'hit' : ''}">${num}</td>`).join('')}
+                    </tr>`;
+                    resultBody.innerHTML += row;
+                }
+            });
+
+            if (encontrouAcertos) {
+                resultTable.classList.remove("hidden");
+            }
+
             document.querySelectorAll("#mockedGamesBody tr").forEach(row => {
                 const cells = row.querySelectorAll("td:nth-child(n+3)");
-                
+
                 cells.forEach(cell => {
                     cell.classList.remove("hit");
                     if (inputs.includes(parseInt(cell.innerText))) {
