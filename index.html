@@ -12,13 +12,13 @@
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
 }
 
-/* ================= FUNDO PREMIUM ================= */
+/* ================= FUNDO PROFISSIONAL ================= */
 body {
   margin: 0;
-  min-height: 100svh; /* CORRETO para mobile moderno */
+  min-height: 100svh;
   background:
-    radial-gradient(circle at top, rgba(255,215,0,.15), transparent 40%),
-    linear-gradient(160deg, #0c2f1a 0%, #0f4d2a 45%, #0a3a20 100%);
+    radial-gradient(circle at top, rgba(255,215,0,.08), transparent 45%),
+    linear-gradient(180deg, #0b2e1a 0%, #0f3d25 45%, #0a2918 100%);
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -26,14 +26,11 @@ body {
   color: #1b1b1b;
 }
 
-/* fallback para navegadores antigos */
-@supports not (height: 100svh) {
-  body {
-    min-height: 100vh;
-  }
+body.locked {
+  overflow: hidden;
 }
 
-/* brilho animado sutil */
+/* brilho suave */
 body::before {
   content: "";
   position: fixed;
@@ -41,13 +38,7 @@ body::before {
   background:
     radial-gradient(circle at 20% 20%, rgba(255,255,255,.08), transparent 40%),
     radial-gradient(circle at 80% 30%, rgba(255,215,0,.08), transparent 45%);
-  animation: glow 10s ease-in-out infinite alternate;
   pointer-events: none;
-}
-
-@keyframes glow {
-  from { opacity: .3; }
-  to { opacity: .7; }
 }
 
 /* ================= APP ================= */
@@ -63,7 +54,7 @@ body::before {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ================= TÍTULO ================= */
+/* ================= TITULO ================= */
 h1 {
   text-align: center;
   font-size: clamp(2.3rem, 4vw, 3.4rem);
@@ -105,7 +96,6 @@ h1 {
   padding: 0 16px;
   margin-bottom: 14px;
   background: #fbfffc;
-  transition: .25s;
 }
 
 .password-input:focus {
@@ -125,7 +115,6 @@ button {
   color: #fff;
   background: linear-gradient(135deg,#43a047,#1b5e20);
   transition: .25s;
-  letter-spacing: .6px;
 }
 
 button:hover {
@@ -162,12 +151,6 @@ button:hover {
   border-radius: 18px;
 }
 
-.participants p {
-  margin: 0;
-  font-size: .95rem;
-  color: #1b5e20;
-}
-
 /* ================= INPUTS ================= */
 #inputsContainer {
   display: grid;
@@ -184,7 +167,6 @@ input[type="number"] {
   text-align: center;
   font-size: 1.2rem;
   background: #fbfffc;
-  transition: .25s;
 }
 
 input[type="number"]:focus {
@@ -214,7 +196,6 @@ th {
   background: linear-gradient(135deg,#2e7d32,#1b5e20);
   color: white;
   padding: 14px;
-  text-transform: uppercase;
   letter-spacing: .6px;
 }
 
@@ -225,12 +206,10 @@ td {
   transition: background .25s;
 }
 
-/* hover elegante */
 tr:hover td {
   background: rgba(76,175,80,.12);
 }
 
-/* número acertado */
 .hit {
   color: #d32f2f;
   font-weight: 900;
@@ -297,7 +276,8 @@ tr:hover td {
 </style>
 </head>
 
-<body>
+<body class="locked">
+
 <div class="app">
 
 <h1>Mega da Virada</h1>
@@ -350,7 +330,7 @@ tr:hover td {
 <script src="script.min.js"></script>
 
 <script>
-/* LOGIN CONTROLADO */
+/* LOGIN */
 const originalLogin = window.verificarSenha;
 if (originalLogin) {
   window.verificarSenha = function () {
@@ -364,6 +344,7 @@ if (originalLogin) {
 
     originalLogin();
 
+    document.body.classList.remove("locked");
     document.getElementById("gameScreen").classList.remove("hidden");
     document.getElementById("participantsBox").classList.remove("hidden");
     error.classList.add("hidden");
@@ -391,8 +372,7 @@ if (originalVerify) {
     });
 
     if (quadra || quina || sena) {
-      let html = "🎉<br><b>PARABÉNS!</b><br>";
-
+      let html = `<b>🎉 PARABÉNS!</b><br><br>`;
       if (sena) html += `🏆 ${sena} SENA<br>`;
       if (quina) html += `✨ ${quina} QUINA<br>`;
       if (quadra) html += `🍀 ${quadra} QUADRA<br>`;
@@ -402,14 +382,14 @@ if (originalVerify) {
       popup.classList.remove("hidden");
 
       lançarConfete();
-      setTimeout(() => popup.classList.add("hidden"), 4000);
+      setTimeout(() => popup.classList.add("hidden"), 4200);
     } else {
       popupContent.classList.add("sad");
       popupContent.innerHTML = "😢<br>Não foi dessa vez...<br><small>Tente novamente 🍀</small>";
       popup.classList.remove("hidden");
 
       chuvaTriste();
-      setTimeout(() => popup.classList.add("hidden"), 3000);
+      setTimeout(() => popup.classList.add("hidden"), 3200);
     }
   };
 }
