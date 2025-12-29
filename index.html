@@ -1,297 +1,453 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mega da Virada</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-      margin-top: 50px;
-      background-color: #f4f4f9;
-    }
-    h1 {
-      font-size: 3em;
-      color: #2c3e50;
-    }
-    h2 {
-      margin-bottom: 20px;
-      color: #34495e;
-    }
-    table {
-      width: 90%;
-      margin: 30px auto;
-      border-collapse: collapse;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      background-color: white;
-    }
-    th, td {
-      padding: 12px;
-      border: 1px solid #ddd;
-      text-align: center;
-    }
-    th {
-      background-color: #4CAF50;
-      color: white;
-    }
-    .hit {
-      color: red;
-      font-weight: bold;
-    }
-    input[type="number"], input[type="password"] {
-      width: 60px;
-      height: 45px;
-      margin: 10px;
-      text-align: center;
-      font-size: 1.2em;
-      border: 2px solid #ccc;
-      border-radius: 5px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    input:focus {
-      border-color: #4CAF50;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-    button {
-      padding: 15px 30px;
-      font-size: 1em;
-      cursor: pointer;
-      margin-top: 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 8px;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .hidden {
-      display: none;
-    }
-    .password-box {
-      margin-top: 40px;
-      display: inline-block;
-      padding: 40px;
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      background-color: white;
-    }
-    .password-input {
-      width: 300px !important;
-    }
-    #errorMessage {
-      color: red;
-      margin-top: 15px;
-      font-size: 1.1em;
-    }
-  </style>
-</head>
-<body>
-  <h1>Mega da Virada</h1>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mega da Virada</title>
 
-  <div id="passwordScreen" class="password-box">
-    <h2>Digite a senha para acessar os jogos:</h2>
-    <input type="password" id="passwordInput" class="password-input" placeholder="Digite a senha...">
-    <br>
-    <button onclick="verificarSenha()">Entrar</button>
-    <p id="errorMessage" class="hidden">Senha incorreta ou campo vazio!</p>
-    <p id="listHiae" class="hidden">Participantes: Caio, Lucas, Marcelo, Thiago, Yan, Molina</p>
-    <p id="listFriends" class="hidden">Participantes: Caio, Jessica, Isabelle Wendy, Eduardo, Ketellen, Henrique</p>
+<style>
+/* ================= RESET ================= */
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* ================= FUNDO PREMIUM ================= */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(255,215,0,.15), transparent 40%),
+    linear-gradient(160deg, #0c2f1a 0%, #0f4d2a 45%, #0a3a20 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-x: hidden;
+  color: #1b1b1b;
+}
+
+/* brilho animado sutil */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.08), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(255,215,0,.08), transparent 45%);
+  animation: glow 10s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes glow {
+  from { opacity: .3; }
+  to { opacity: .7; }
+}
+
+/* ================= APP ================= */
+.app {
+  width: 100%;
+  max-width: 1050px;
+  padding: 20px;
+  animation: fadeIn .8s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ================= TÍTULO ================= */
+h1 {
+  text-align: center;
+  font-size: clamp(2.3rem, 4vw, 3.4rem);
+  font-weight: 900;
+  color: #f4fbe8;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  text-shadow: 0 6px 25px rgba(0,0,0,.6);
+}
+
+/* ================= CARD ================= */
+.card {
+  background: linear-gradient(180deg,#ffffff,#f4fff7);
+  border-radius: 22px;
+  padding: 28px;
+  margin-bottom: 26px;
+  box-shadow: 0 25px 55px rgba(0,0,0,.35);
+  animation: pop .45s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(.92); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ================= LOGIN ================= */
+.password-box {
+  max-width: 420px;
+  margin: auto;
+  text-align: center;
+}
+
+.password-input {
+  width: 100%;
+  height: 58px;
+  font-size: 1.1rem;
+  border-radius: 16px;
+  border: 2px solid #9ccc65;
+  padding: 0 16px;
+  margin-bottom: 14px;
+  background: #fbfffc;
+  transition: .25s;
+}
+
+.password-input:focus {
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 4px rgba(46,125,50,.25);
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 18px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  border-radius: 18px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(135deg,#43a047,#1b5e20);
+  transition: .25s;
+  letter-spacing: .6px;
+}
+
+button:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 18px 40px rgba(0,0,0,.35);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ERRO */
+#errorMessage {
+  color: #c62828;
+  font-weight: 600;
+  margin-top: 12px;
+  animation: shake .35s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0) }
+  25% { transform: translateX(-6px) }
+  50% { transform: translateX(6px) }
+  75% { transform: translateX(-6px) }
+  100% { transform: translateX(0) }
+}
+
+/* ================= PARTICIPANTES ================= */
+.participants {
+  margin: 18px 0 24px;
+  padding: 18px;
+  background: linear-gradient(135deg,#f3fff7,#ffffff);
+  border-left: 6px solid #2e7d32;
+  border-radius: 18px;
+}
+
+.participants p {
+  margin: 0;
+  font-size: .95rem;
+  color: #1b5e20;
+}
+
+/* ================= INPUTS ================= */
+#inputsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+  gap: 14px;
+  max-width: 500px;
+  margin: 22px auto;
+}
+
+input[type="number"] {
+  height: 54px;
+  border-radius: 14px;
+  border: 2px solid #9ccc65;
+  text-align: center;
+  font-size: 1.2rem;
+  background: #fbfffc;
+  transition: .25s;
+}
+
+input[type="number"]:focus {
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 4px rgba(46,125,50,.25);
+  outline: none;
+}
+
+/* ================= TABELA ================= */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 22px;
+}
+
+table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 18px 36px rgba(0,0,0,.25);
+}
+
+th {
+  background: linear-gradient(135deg,#2e7d32,#1b5e20);
+  color: white;
+  padding: 14px;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+  transition: background .25s;
+}
+
+/* hover elegante */
+tr:hover td {
+  background: rgba(76,175,80,.12);
+}
+
+/* número acertado */
+.hit {
+  color: #d32f2f;
+  font-weight: 900;
+  animation: pulse .6s ease;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+/* ================= CONFETE ================= */
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.confetti span {
+  position: absolute;
+  width: 10px;
+  height: 14px;
+  animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+  from { transform: translateY(-10vh) rotate(0); opacity: 1; }
+  to   { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ================= POPUP ================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+}
+
+.popup {
+  background: linear-gradient(135deg,#ffffff,#f4fff7);
+  padding: 48px 52px;
+  border-radius: 34px;
+  text-align: center;
+  font-size: 1.45rem;
+  box-shadow: 0 35px 80px rgba(0,0,0,.45);
+  animation: popWin .6s ease;
+}
+
+.popup.sad {
+  background: linear-gradient(135deg,#f1f1f1,#e4e4e4);
+  color: #666;
+}
+
+@keyframes popWin {
+  0% { transform: scale(.6) rotate(-6deg); opacity: 0; }
+  60% { transform: scale(1.1) rotate(3deg); }
+  100% { transform: scale(1); opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<h1>Mega da Virada</h1>
+
+<div id="passwordScreen" class="card password-box">
+  <h2>Digite a senha para acessar</h2>
+  <input id="passwordInput" type="password" class="password-input" />
+  <button onclick="verificarSenha()">Entrar</button>
+  <p id="errorMessage" class="hidden">Senha incorreta ou campo vazio!</p>
+</div>
+
+<div id="gameScreen" class="hidden">
+
+  <div id="participantsBox" class="participants hidden">
+    <p id="listHiae">Participantes: Caio, Lucas, Marcelo, Thiago, Yan, Molina</p>
+    <p id="listFamily" class="hidden">
+      Participantes: Caio, Jéssica, Jonathan, Ariane, Gilmar, Sislene,
+      Mario, Tony/Bia, Regina, Zé, Ladin, Silvana, Danilo, Daniel
+    </p>
+    <p id="listFriends" class="hidden">Participantes:</p>
   </div>
 
-  <div id="gameScreen" class="hidden">
-    <p>Digite seus números e confira se você acertou!</p>
+  <div class="card">
+    <p>Digite seus números e confira se você acertou:</p>
     <div id="inputsContainer"></div>
     <button onclick="verificarNumeros()">Verificar</button>
+  </div>
 
-    <h2>Resultados</h2>
+  <div class="table-wrapper">
     <table id="resultTable" class="hidden">
       <thead id="resultHeader"></thead>
       <tbody id="resultBody"></tbody>
     </table>
+  </div>
 
+  <div class="table-wrapper">
     <table id="mockedGamesTable">
       <thead id="mockedHeader"></thead>
       <tbody id="mockedGamesBody"></tbody>
     </table>
   </div>
+</div>
 
-  <script>
-   const jogosGloria = [
- 
-        ];
+<div id="confetti" class="confetti hidden"></div>
 
+<div id="popup" class="overlay hidden">
+  <div id="popupContent" class="popup"></div>
+</div>
 
-const jogosEinstein = [
-  { id: 1, name: "Jogo 1", numbers: [5, 10, 20, 33, 34, 58] },
-  { id: 2, name: "Jogo 2", numbers: [4, 11, 27, 32, 45, 56] },
-  { id: 3, name: "Jogo 3", numbers: [7, 8, 13, 26, 39, 60] },
-  { id: 4, name: "Jogo 4", numbers: [1, 17, 25, 42, 47, 54] },
+<script src="script.min.js"></script>
 
-  { id: 5, name: "Jogo 5", numbers: [6, 9, 13, 14, 22, 27] },
-  { id: 6, name: "Jogo 6", numbers: [2, 5, 16, 18, 50, 56] },
-  { id: 7, name: "Jogo 7", numbers: [18, 37, 43, 45, 51, 53] },
-  { id: 8, name: "Jogo 8", numbers: [13, 14, 18, 35, 42, 51] },
+<script>
+/* LOGIN CONTROLADO */
+const originalLogin = window.verificarSenha;
+if (originalLogin) {
+  window.verificarSenha = function () {
+    const input = document.getElementById("passwordInput");
+    const error = document.getElementById("errorMessage");
 
-  { id: 9, name: "Jogo 9", numbers: [1, 10, 25, 34, 35, 46] },
-  { id: 10, name: "Jogo 10", numbers: [27, 28, 35, 42, 49, 53] },
-  { id: 11, name: "Jogo 11", numbers: [7, 17, 31, 51, 52, 60] },
-  { id: 12, name: "Jogo 12", numbers: [3, 5, 26, 32, 35, 59] },
-
-  { id: 13, name: "Jogo 13", numbers: [1, 14, 21, 28, 31, 50] },
-  { id: 14, name: "Jogo 14", numbers: [3, 26, 41, 48, 54, 59] },
-  { id: 15, name: "Jogo 15", numbers: [4, 10, 50, 54, 55, 57] },
-  { id: 16, name: "Jogo 16", numbers: [4, 17, 19, 31, 38, 56] },
-
-  { id: 17, name: "Jogo 17", numbers: [3, 8, 16, 18, 22, 40] },
-  { id: 18, name: "Jogo 18", numbers: [12, 19, 23, 28, 39, 51] },
-  { id: 19, name: "Jogo 19", numbers: [8, 15, 24, 25, 49, 54] },
-  { id: 20, name: "Jogo 20", numbers: [15, 32, 38, 43, 46, 49] },
-
-  { id: 21, name: "Jogo 21", numbers: [9, 15, 32, 33, 50, 52] },
-  { id: 22, name: "Jogo 22", numbers: [3, 7, 43, 49, 51, 59] },
-  { id: 23, name: "Jogo 23", numbers: [12, 17, 26, 41, 42, 59] },
-  { id: 24, name: "Jogo 24", numbers: [13, 22, 45, 46, 59, 60] },
-];
-
-
-    const jogosFriends = [];
- 
-    let jogosAtuais = [];
-
-    function verificarSenha() {
-      const senha = document.getElementById("passwordInput").value;
-      const errorMessage = document.getElementById("errorMessage");
-      const listHiae = document.getElementById("listHiae");
-      const listFriends = document.getElementById("listFriends");
-
-      document.getElementById("resultBody").innerHTML = '';
-      document.getElementById("resultTable").classList.add("hidden");
-
-      if (senha === "familia") {
-        jogosAtuais = jogosGloria;
-        errorMessage.classList.add("hidden");
-        listHiae.classList.add("hidden");
-        listFriends.classList.add("hidden");
-      } else if (senha === "core") {
-        jogosAtuais = jogosEinstein;
-        errorMessage.classList.add("hidden");
-        listHiae.classList.remove("hidden");
-        listFriends.classList.add("hidden");
-      } else if (senha === "friends") {
-        jogosAtuais = jogosFriends;
-        errorMessage.classList.add("hidden");
-        listHiae.classList.add("hidden");
-        listFriends.classList.remove("hidden");
-      } else {
-        errorMessage.classList.remove("hidden");
-        return;
-      }
-
-      document.getElementById("passwordScreen").classList.add("hidden");
-      document.getElementById("gameScreen").classList.remove("hidden");
-      renderInputs();
-      renderTable();
+    if (!input.value) {
+      error.classList.remove("hidden");
+      return;
     }
 
-    function renderInputs() {
-      const inputsContainer = document.getElementById("inputsContainer");
-      inputsContainer.innerHTML = '';
+    originalLogin();
 
-      const maxCols = jogosAtuais.reduce((max, game) => Math.max(max, game.numbers.length), 0);
+    document.getElementById("gameScreen").classList.remove("hidden");
+    document.getElementById("participantsBox").classList.remove("hidden");
+    error.classList.add("hidden");
+  };
+}
 
-      for (let i = 1; i <= maxCols; i++) {
-        const input = document.createElement("input");
-        input.type = "number";
-        input.id = `num${i}`;
-        input.min = 1;
-        input.max = 80;
-        inputsContainer.appendChild(input);
-      }
+/* RESULTADO */
+const originalVerify = window.verificarNumeros;
+
+if (originalVerify) {
+  window.verificarNumeros = function () {
+    originalVerify();
+
+    const resultBody = document.getElementById("resultBody");
+    const popup = document.getElementById("popup");
+    const popupContent = document.getElementById("popupContent");
+
+    let quadra = 0, quina = 0, sena = 0;
+
+    Array.from(resultBody.children).forEach(row => {
+      const hits = row.querySelectorAll(".hit").length;
+      if (hits === 4) quadra++;
+      else if (hits === 5) quina++;
+      else if (hits >= 6) sena++;
+    });
+
+    if (quadra || quina || sena) {
+      let html = "🎉<br><b>PARABÉNS!</b><br>";
+
+      if (sena) html += `🏆 ${sena} SENA<br>`;
+      if (quina) html += `✨ ${quina} QUINA<br>`;
+      if (quadra) html += `🍀 ${quadra} QUADRA<br>`;
+
+      popupContent.classList.remove("sad");
+      popupContent.innerHTML = html;
+      popup.classList.remove("hidden");
+
+      lançarConfete();
+      setTimeout(() => popup.classList.add("hidden"), 4000);
+    } else {
+      popupContent.classList.add("sad");
+      popupContent.innerHTML = "😢<br>Não foi dessa vez...<br><small>Tente novamente 🍀</small>";
+      popup.classList.remove("hidden");
+
+      chuvaTriste();
+      setTimeout(() => popup.classList.add("hidden"), 3000);
     }
+  };
+}
 
-    function renderTable() {
-      const maxCols = jogosAtuais.reduce((max, game) => Math.max(max, game.numbers.length), 0);
+/* 🎉 confete */
+function lançarConfete() {
+  const container = document.getElementById("confetti");
+  container.innerHTML = "";
+  container.classList.remove("hidden");
 
-      const headerCells = `
-        <tr>
-          <th>Id</th>
-          <th>Nome</th>
-          ${Array.from({ length: maxCols }).map((_, i) => `<th>Número ${i + 1}</th>`).join('')}
-        </tr>
-      `;
+  for (let i = 0; i < 120; i++) {
+    const span = document.createElement("span");
+    span.style.left = Math.random() * 100 + "%";
+    span.style.background = `hsl(${Math.random() * 360},80%,60%)`;
+    span.style.animationDuration = 2 + Math.random() * 2 + "s";
+    container.appendChild(span);
+  }
 
-      document.getElementById("mockedHeader").innerHTML = headerCells;
-      document.getElementById("resultHeader").innerHTML = headerCells;
+  setTimeout(() => {
+    container.classList.add("hidden");
+    container.innerHTML = "";
+  }, 4000);
+}
 
-      const mockedBody = document.getElementById("mockedGamesBody");
-      mockedBody.innerHTML = '';
+/* 😢 chuva triste */
+function chuvaTriste() {
+  const container = document.getElementById("confetti");
+  container.innerHTML = "";
+  container.classList.remove("hidden");
 
-      jogosAtuais.forEach(game => {
-        const row = `<tr>
-          <td>${game.id}</td>
-          <td>${game.name}</td>
-          ${Array.from({ length: maxCols }).map((_, idx) => {
-            const n = game.numbers[idx];
-            return n !== undefined ? `<td>${n}</td>` : `<td></td>`;
-          }).join('')}
-        </tr>`;
-        mockedBody.innerHTML += row;
-      });
-    }
+  for (let i = 0; i < 70; i++) {
+    const span = document.createElement("span");
+    span.textContent = "😢";
+    span.style.left = Math.random() * 100 + "%";
+    span.style.fontSize = "22px";
+    span.style.animationDuration = 2 + Math.random() * 2 + "s";
+    container.appendChild(span);
+  }
 
-    function verificarNumeros() {
-      const inputs = [];
-      const inputsElements = document.querySelectorAll("#inputsContainer input");
-      inputsElements.forEach(input => {
-        const val = parseInt(input.value);
-        if (!isNaN(val)) inputs.push(val);
-      });
+  setTimeout(() => {
+    container.classList.add("hidden");
+    container.innerHTML = "";
+  }, 3200);
+}
+</script>
 
-      const maxCols = jogosAtuais.reduce((max, game) => Math.max(max, game.numbers.length), 0);
-
-      const resultBody = document.getElementById("resultBody");
-      const resultTable = document.getElementById("resultTable");
-
-      resultBody.innerHTML = '';
-      resultTable.classList.add("hidden");
-
-      let encontrouAcertos = false;
-
-      jogosAtuais.forEach(game => {
-        const matches = game.numbers.filter(num => inputs.includes(num));
-        if (matches.length >= 4) {
-          encontrouAcertos = true;
-          const row = `<tr>
-            <td>${game.id}</td>
-            <td>${game.name}</td>
-            ${Array.from({ length: maxCols }).map((_, idx) => {
-              const n = game.numbers[idx];
-              return n !== undefined
-                ? `<td class="${inputs.includes(n) ? 'hit' : ''}">${n}</td>`
-                : '<td></td>';
-            }).join('')}
-          </tr>`;
-          resultBody.innerHTML += row;
-        }
-      });
-
-      if (encontrouAcertos) {
-        resultTable.classList.remove("hidden");
-      }
-
-      document.querySelectorAll("#mockedGamesBody tr").forEach(row => {
-        const cells = row.querySelectorAll("td:nth-child(n+3)");
-        cells.forEach(cell => {
-          cell.classList.remove("hit");
-          const num = parseInt(cell.innerText);
-          if (!isNaN(num) && inputs.includes(num)) {
-            cell.classList.add("hit");
-          }
-        });
-      });
-    }
-  </script>
 </body>
 </html>
