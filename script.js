@@ -1,4 +1,88 @@
-const jogosFamilia = [];
+const jogosFamilia = [
+  // Caio
+  { id: 1, name: "Caio", numbers: [10, 15, 20, 29, 47, 51] },
+  { id: 2, name: "Caio", numbers: [3, 16, 28, 32, 36, 53] },
+  { id: 3, name: "Caio", numbers: [9, 26, 30, 41, 50, 60] },
+  { id: 4, name: "Caio", numbers: [11, 25, 30, 34, 44, 47] },
+
+  // Jessica
+  { id: 5, name: "Jessica", numbers: [7, 14, 23, 31, 42, 58] },
+  { id: 6, name: "Jessica", numbers: [8, 15, 23, 37, 42, 56] },
+  { id: 7, name: "Jessica", numbers: [4, 7, 32, 52, 57, 59] },
+  { id: 8, name: "Jessica", numbers: [4, 14, 18, 26, 34, 43] },
+
+  // Jonathan
+  { id: 9, name: "Jonathan", numbers: [1, 3, 9, 16, 20, 24] },
+  { id: 10, name: "Jonathan", numbers: [1, 9, 12, 24, 55, 59] },
+  { id: 11, name: "Jonathan", numbers: [14, 19, 24, 30, 34, 36] },
+  { id: 12, name: "Jonathan", numbers: [2, 4, 8, 22, 32, 45] },
+
+  // Ariane
+  { id: 13, name: "Ariane", numbers: [1, 11, 17, 27, 32, 52] },
+  { id: 14, name: "Ariane", numbers: [1, 13, 15, 21, 29, 47] },
+  { id: 15, name: "Ariane", numbers: [2, 13, 27, 37, 52, 58] },
+  { id: 16, name: "Ariane", numbers: [2, 16, 21, 39, 51, 59] },
+
+  // Mario
+  { id: 17, name: "Mario", numbers: [5, 8, 19, 27, 46, 60] },
+  { id: 18, name: "Mario", numbers: [14, 20, 27, 33, 40, 47] },
+  { id: 19, name: "Mario", numbers: [2, 12, 27, 34, 43, 55] },
+  { id: 20, name: "Mario", numbers: [2, 5, 8, 19, 33, 55] },
+
+  // Tony / Bia
+  { id: 21, name: "Tony/Bia", numbers: [6, 18, 24, 27, 28, 45] },
+  { id: 22, name: "Tony/Bia", numbers: [8, 12, 34, 52, 57, 60] },
+  { id: 23, name: "Tony/Bia", numbers: [3, 13, 21, 25, 37, 43] },
+  { id: 24, name: "Tony/Bia", numbers: [8, 12, 47, 53, 55, 59] },
+
+  // Gilmar
+  { id: 25, name: "Gilmar", numbers: [4, 7, 12, 16, 28, 39] },
+  { id: 26, name: "Gilmar", numbers: [2, 6, 11, 22, 25, 42] },
+  { id: 27, name: "Gilmar", numbers: [8, 14, 21, 23, 35, 51] },
+  { id: 28, name: "Gilmar", numbers: [12, 17, 20, 34, 42, 47] },
+
+  // Sislene
+  { id: 29, name: "Sislene", numbers: [17, 23, 28, 37, 46, 51] },
+  { id: 30, name: "Sislene", numbers: [5, 11, 21, 27, 30, 55] },
+  { id: 31, name: "Sislene", numbers: [4, 14, 25, 33, 51, 57] },
+  { id: 32, name: "Sislene", numbers: [3, 13, 33, 53, 56, 60] },
+
+  // Regina
+  { id: 33, name: "Regina", numbers: [6, 10, 24, 33, 45, 52] },
+  { id: 34, name: "Regina", numbers: [4, 15, 20, 36, 48, 56] },
+  { id: 35, name: "Regina", numbers: [9, 17, 25, 38, 41, 60] },
+  { id: 36, name: "Regina", numbers: [7, 14, 22, 29, 40, 54] },
+
+  // Zé
+  { id: 37, name: "Zé", numbers: [3, 14, 22, 31, 45, 58] },
+  { id: 38, name: "Zé", numbers: [6, 8, 27, 36, 49, 60] },
+  { id: 39, name: "Zé", numbers: [4, 9, 18, 34, 42, 55] },
+  { id: 40, name: "Zé", numbers: [7, 16, 25, 38, 47, 59] },
+
+  // Danilo
+  { id: 41, name: "Danilo", numbers: [5, 11, 19, 28, 37, 53] },
+  { id: 42, name: "Danilo", numbers: [2, 14, 23, 31, 46, 59] },
+  { id: 43, name: "Danilo", numbers: [8, 16, 21, 35, 42, 57] },
+  { id: 44, name: "Danilo", numbers: [1, 12, 18, 27, 39, 55] },
+
+  // Daniel
+  { id: 45, name: "Daniel", numbers: [7, 12, 25, 34, 48, 53] },
+  { id: 46, name: "Daniel", numbers: [1, 9, 18, 33, 47, 60] },
+  { id: 47, name: "Daniel", numbers: [3, 11, 19, 27, 42, 56] },
+  { id: 48, name: "Daniel", numbers: [2, 8, 17, 29, 44, 58] },
+
+  // Ladin
+  { id: 49, name: "Ladin", numbers: [6, 13, 37, 43, 54, 71] },
+  { id: 50, name: "Ladin", numbers: [7, 9, 11, 21, 24, 56] },
+  { id: 51, name: "Ladin", numbers: [7, 13, 22, 34, 54, 56] },
+  { id: 52, name: "Ladin", numbers: [3, 7, 16, 22, 34, 51] },
+
+  // Silvana
+  { id: 53, name: "Silvana", numbers: [9, 18, 24, 26, 28, 56] },
+  { id: 54, name: "Silvana", numbers: [4, 15, 17, 23, 44, 52] },
+  { id: 55, name: "Silvana", numbers: [6, 11, 12, 16, 29, 30] },
+  { id: 56, name: "Silvana", numbers: [2, 13, 32, 39, 49, 53] },
+];
 
 const jogosEinstein = [
   { id: 1, name: "Jogo 1", numbers: [5, 10, 20, 33, 34, 58] },
