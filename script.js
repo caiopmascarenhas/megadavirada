@@ -240,6 +240,11 @@ const jogosFriends = [
   { id: 6, name: "David", numbers: [16, 32, 35, 42, 47, 48] },
   { id: 7, name: "David", numbers: [27, 29, 33, 48, 52, 54] },
   { id: 8, name: "David", numbers: [5, 28, 37, 38, 40, 59] },
+
+  { id: 5, name: "Riton", numbers: [5, 17, 28, 40, 57, 59] },
+  { id: 6, name: "Riton", numbers: [19, 20, 35, 39, 45, 51] },
+  { id: 7, name: "Riton", numbers: [8, 11, 17, 21, 22, 53] },
+  { id: 8, name: "Riton", numbers: [1, 11, 12, 13, 16, 22] },
 ];
 
 let jogosAtuais = [];
