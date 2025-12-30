@@ -327,7 +327,7 @@ tr:hover td {
       <p id="listNewset" class="hidden">
       Participantes: Jéssica, Átila, Rodrigo, Fábio, David
     </p>
-    <p id="listFriends" class="hidden">Participantes:</p>
+    <p id="listFriends" class="hidden">Participantes: Caio, David, Riton</p>
   </div>
 
   <div class="card">

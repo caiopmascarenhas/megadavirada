@@ -228,7 +228,19 @@ const jogosNewSet = [
   { id: 100, name: "David", numbers: [3, 16, 22, 36, 48, 54] },
 ];
 
-const jogosFriends = [];
+const jogosFriends = [
+  // Caio
+  { id: 1, name: "Caio", numbers: [12, 19, 30, 35, 44, 46] },
+  { id: 2, name: "Caio", numbers: [15, 25, 41, 56, 57, 60] },
+  { id: 3, name: "Caio", numbers: [17, 29, 34, 39, 42, 51] },
+  { id: 4, name: "Caio", numbers: [2, 6, 25, 36, 49, 53] },
+
+  // David
+  { id: 5, name: "David", numbers: [1, 10, 21, 23, 29, 31] },
+  { id: 6, name: "David", numbers: [16, 32, 35, 42, 47, 48] },
+  { id: 7, name: "David", numbers: [27, 29, 33, 48, 52, 54] },
+  { id: 8, name: "David", numbers: [5, 28, 37, 38, 40, 59] },
+];
 
 let jogosAtuais = [];
 
@@ -264,6 +276,13 @@ function verificarSenha() {
     listFriends.classList.add("hidden");
     listFamily.classList.add("hidden");
     listNewset.classList.remove("hidden");
+  } else if (senha === "bora") {
+    jogosAtuais = jogosFriends;
+    errorMessage.classList.add("hidden");
+    listHiae.classList.add("hidden");
+    listFriends.classList.remove("hidden");
+    listFamily.classList.add("hidden");
+    listNewset.classList.add("hidden");
   } else {
     errorMessage.classList.remove("hidden");
     return;
