@@ -246,53 +246,54 @@ let jogosAtuais = [];
 
 function verificarSenha() {
   const senha = document.getElementById("passwordInput").value;
+
   const errorMessage = document.getElementById("errorMessage");
   const listHiae = document.getElementById("listHiae");
   const listFamily = document.getElementById("listFamily");
   const listFriends = document.getElementById("listFriends");
   const listNewset = document.getElementById("listNewset");
 
+  const passwordScreen = document.getElementById("passwordScreen");
+  const gameScreen = document.getElementById("gameScreen");
+
+  // 🔒 SEMPRE esconder tudo primeiro
+  errorMessage.classList.add("hidden");
+  listHiae.classList.add("hidden");
+  listFamily.classList.add("hidden");
+  listFriends.classList.add("hidden");
+  listNewset.classList.add("hidden");
+  gameScreen.classList.add("hidden");
+
   document.getElementById("resultBody").innerHTML = "";
   document.getElementById("resultTable").classList.add("hidden");
 
+  // ================= VALIDA SENHA =================
   if (senha === "familia") {
     jogosAtuais = jogosFamilia;
-    errorMessage.classList.add("hidden");
-    listHiae.classList.add("hidden");
-    listFriends.classList.add("hidden");
     listFamily.classList.remove("hidden");
-    listNewset.classList.add("hidden");
   } else if (senha === "core") {
     jogosAtuais = jogosEinstein;
-    errorMessage.classList.add("hidden");
     listHiae.classList.remove("hidden");
-    listFriends.classList.add("hidden");
-    listFamily.classList.add("hidden");
-    listNewset.classList.add("hidden");
   } else if (senha === "newset") {
     jogosAtuais = jogosNewSet;
-    errorMessage.classList.add("hidden");
-    listHiae.classList.add("hidden");
-    listFriends.classList.add("hidden");
-    listFamily.classList.add("hidden");
     listNewset.classList.remove("hidden");
   } else if (senha === "bora") {
     jogosAtuais = jogosFriends;
-    errorMessage.classList.add("hidden");
-    listHiae.classList.add("hidden");
     listFriends.classList.remove("hidden");
-    listFamily.classList.add("hidden");
-    listNewset.classList.add("hidden");
   } else {
+    // ❌ senha errada → mostra SOMENTE erro
     errorMessage.classList.remove("hidden");
     return;
   }
 
-  document.getElementById("passwordScreen").classList.add("hidden");
-  document.getElementById("gameScreen").classList.remove("hidden");
+  // ✅ senha correta → libera tela
+  passwordScreen.classList.add("hidden");
+  gameScreen.classList.remove("hidden");
+
   renderInputs();
   renderTable();
 }
+
 
 function renderInputs() {
   const inputsContainer = document.getElementById("inputsContainer");
