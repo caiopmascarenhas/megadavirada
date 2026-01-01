@@ -427,6 +427,10 @@ function verificarNumeros() {
   jogosAtuais.forEach(game => {
     const acertos = game.numbers.filter(n => inputs.includes(n));
 
+    // 👉 registra todos os acertos SEM depender de prêmio
+    acertos.forEach(n => hits.add(String(n)));
+
+    // regras de prêmio continuam iguais
     if (acertos.length >= 4) {
       if (acertos.length === 4) quadra++;
       if (acertos.length === 5) quina++;
@@ -436,19 +440,24 @@ function verificarNumeros() {
         <tr>
           <td>${game.id}</td>
           <td>${game.name}</td>
-          ${game.numbers.map(n =>
-            `<td class="${inputs.includes(n) ? "hit" : ""}">${n}</td>`
-          ).join("")}
+          ${game.numbers
+            .map(
+              n => `<td class="${inputs.includes(n) ? "hit" : ""}">${n}</td>`
+            )
+            .join("")}
         </tr>
       `;
 
       resultBody.innerHTML += row;
-      acertos.forEach(n => hits.add(String(n)));
     }
   });
 
-  document.getElementById("resultTable").classList.toggle("hidden", resultBody.innerHTML === "");
+  document.getElementById("resultTable").classList.toggle(
+    "hidden",
+    resultBody.innerHTML === ""
+  );
 
+  // ✅ agora SEMPRE marca os números digitados que existem nos jogos
   document.querySelectorAll("#inputsContainer input").forEach(input => {
     input.classList.toggle("hit-number", hits.has(input.value));
   });
