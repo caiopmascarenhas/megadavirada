@@ -1,71 +1,537 @@
 <!DOCTYPE html>
-<html lang=pt-BR>
+<html lang="pt-BR">
 <head>
-<meta charset=UTF-8 />
-<meta name=viewport content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Mega da Virada</title>
-<style>*{box-sizing:border-box;font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,sans-serif}html,body{height:100%}body{margin:0;background:#0b0f14;color:#e9eef3;overflow-x:hidden;position:relative}body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(circle at top center,rgba(70,130,255,0.25),rgba(11,15,20,0.95) 60%)}body.locked{overflow:hidden}.app{min-height:100vh;max-width:1100px;margin:0 auto;padding:clamp(16px,4vw,32px)}h1{text-align:center;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;margin-bottom:24px}.card{background:#141a22;border-radius:20px;padding:clamp(20px,4vw,32px);margin-bottom:28px;box-shadow:0 15px 40px rgba(0,0,0,.6)}.password-box{max-width:420px;margin:auto;text-align:center}.password-input{width:100%;height:56px;border-radius:14px;border:1px solid #2a3442;background:#0f141b;color:#fff;font-size:1.05rem;padding:0 16px}.password-input:focus{border-color:#4da3ff;box-shadow:0 0 0 3px rgba(77,163,255,.25);outline:0}button{margin-top:14px;width:100%;height:56px;border:0;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;color:#fff;background:linear-gradient(135deg,#4da3ff,#2563eb)}button:hover{box-shadow:0 14px 32px rgba(37,99,235,.45)}#errorMessage{color:#ff6b6b;margin-top:12px;font-weight:600}.hidden{display:none!important}.participants{background:#0f1622;border-left:4px solid #4da3ff;padding:16px 18px;border-radius:14px;color:#cfe4ff;margin-bottom:20px}#inputsContainer{display:grid;grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:14px;max-width:520px;margin:22px auto}input[type="number"]{height:56px;border-radius:14px;border:1px solid #2a3442;background:#0f141b;color:#fff;text-align:center;font-size:1.25rem}input.hit-number{background:linear-gradient(135deg,#16a34a,#22c55e);font-weight:800;border-color:#22c55e}.table-wrapper{width:100%;margin-top:22px;border-radius:16px;overflow:hidden;background:#111827}.table-scroll{overflow-x:auto}table{width:100%;min-width:700px;border-collapse:collapse}th{background:#1f2937;padding:14px;color:#fff}td{padding:12px;border-bottom:1px solid #1f2937;text-align:center}.hit{color:#22c55e;font-weight:900}.confetti{position:fixed;inset:0;pointer-events:none;z-index:9999}.confetti span{position:absolute;width:10px;height:14px;animation:fall 3s linear forwards}@keyframes fall{from{transform:translateY(-10vh) rotate(0);opacity:1}to{transform:translateY(110vh) rotate(720deg);opacity:0}}.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9998}.popup{background:#0f172a;color:#fff;padding:46px 50px;border-radius:28px;text-align:center;font-size:1.4rem}.popup.sad{background:#1f2937;color:#cbd5e1}</style>
+
+<style>
+/* ================= RESET ================= */
+* {
+  box-sizing: border-box;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+/* ================= FUNDO ================= */
+body {
+  margin: 0;
+  background: #0b0f14;
+  color: #e9eef3;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(
+      circle at top center,
+      rgba(70, 130, 255, 0.25),
+      rgba(11, 15, 20, 0.95) 60%
+    );
+}
+
+body.locked {
+  overflow: hidden;
+}
+
+/* ================= CONTAINER ================= */
+.app {
+  min-height: 100vh;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(16px, 4vw, 32px);
+}
+
+/* ================= TÍTULO ================= */
+h1 {
+  text-align: center;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  margin-bottom: 24px;
+}
+
+/* ================= CARD ================= */
+.card {
+  background: #141a22;
+  border-radius: 20px;
+  padding: clamp(20px, 4vw, 32px);
+  margin-bottom: 28px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.6);
+}
+
+/* ================= LOGIN ================= */
+.password-box {
+  max-width: 420px;
+  margin: auto;
+  text-align: center;
+}
+
+.password-input {
+  width: 100%;
+  height: 56px;
+  border-radius: 14px;
+  border: 1px solid #2a3442;
+  background: #0f141b;
+  color: #fff;
+  font-size: 1.05rem;
+  padding: 0 16px;
+}
+
+.password-input:focus {
+  border-color: #4da3ff;
+  box-shadow: 0 0 0 3px rgba(77,163,255,.25);
+  outline: none;
+}
+
+button {
+  margin-top: 14px;
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(135deg, #4da3ff, #2563eb);
+}
+
+button:hover {
+  box-shadow: 0 14px 32px rgba(37,99,235,.45);
+}
+
+#errorMessage {
+  color: #ff6b6b;
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ================= PARTICIPANTES ================= */
+.participants {
+  background: #0f1622;
+  border-left: 4px solid #4da3ff;
+  padding: 16px 18px;
+  border-radius: 14px;
+  color: #cfe4ff;
+  margin-bottom: 20px;
+}
+
+/* ================= INPUTS ================= */
+#inputsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+  gap: 14px;
+  max-width: 520px;
+  margin: 22px auto;
+}
+
+input[type="number"] {
+  height: 56px;
+  border-radius: 14px;
+  border: 1px solid #2a3442;
+  background: #0f141b;
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+input.hit-number {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  font-weight: 800;
+  border-color: #22c55e;
+}
+
+/* ================= TABELA ================= */
+.table-wrapper {
+  width: 100%;
+  margin-top: 22px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #111827;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+}
+
+th {
+  background: #1f2937;
+  padding: 14px;
+  color: #fff;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #1f2937;
+  text-align: center;
+}
+
+.hit {
+  color: #22c55e;
+  font-weight: 900;
+}
+
+/* ================= CONFETE ================= */
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.confetti span {
+  position: absolute;
+  width: 10px;
+  height: 14px;
+  animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+  from { transform: translateY(-10vh) rotate(0); opacity: 1; }
+  to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ================= POPUP ================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+}
+
+.popup {
+  background: #0f172a;
+  color: #fff;
+  padding: 46px 50px;
+  border-radius: 28px;
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+.popup.sad {
+  background: #1f2937;
+  color: #cbd5e1;
+}
+</style>
 </head>
-<body class=locked>
-<div class=app>
+
+<body class="locked">
+
+<div class="app">
+
 <h1>Mega da Virada</h1>
-<div id=passwordScreen class="card password-box">
-<h2>Digite a senha para acessar</h2>
-<input id=passwordInput type=password class=password-input placeholder=Senha />
-<button onclick=verificarSenha()>Entrar</button>
-<p id=errorMessage class=hidden>Senha incorreta ou campo vazio!</p>
+
+<div id="passwordScreen" class="card password-box">
+  <h2>Digite a senha para acessar</h2>
+  <input id="passwordInput" type="password" class="password-input" placeholder="Senha" />
+  <button onclick="verificarSenha()">Entrar</button>
+  <p id="errorMessage" class="hidden">Senha incorreta ou campo vazio!</p>
 </div>
-<div id=gameScreen class=hidden>
-<div id=participantsBox class="participants hidden">
-<p id=listHiae>Participantes: Caio, Lucas, Marcelo, Thiago, Yan, Molina</p>
-<p id=listFamily class=hidden>
-Participantes: Caio, Jéssica, Jonathan, Ariane, Gilmar, Sislene,
-Mario, Tony/Bia, Regina, Zé, Ladin, Silvana, Danilo, Daniel
-</p>
-<p id=listNewset class=hidden>
-Participantes: Jéssica, Átila, Rodrigo, Fábio, David
-</p>
-<p id=listFriends class=hidden>
-Participantes: Caio, David, Riton
-</p>
+
+<div id="gameScreen" class="hidden">
+
+  <div id="participantsBox" class="participants hidden">
+    <p id="listHiae">Participantes: Caio, Lucas, Marcelo, Thiago, Yan, Molina</p>
+    <p id="listFamily" class="hidden">
+      Participantes: Caio, Jéssica, Jonathan, Ariane, Gilmar, Sislene,
+      Mario, Tony/Bia, Regina, Zé, Ladin, Silvana, Danilo, Daniel
+    </p>
+    <p id="listNewset" class="hidden">
+      Participantes: Jéssica, Átila, Rodrigo, Fábio, David
+    </p>
+    <p id="listFriends" class="hidden">
+      Participantes: Caio, David, Riton
+    </p>
+  </div>
+
+  <div class="card">
+    <p>Digite seus números e confira se você acertou:</p>
+    <div id="inputsContainer"></div>
+    <button onclick="verificarNumeros()">Verificar</button>
+  </div>
+
+  <div class="table-wrapper">
+    <div class="table-scroll">
+      <table id="resultTable" class="hidden">
+        <thead id="resultHeader"></thead>
+        <tbody id="resultBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <div class="table-scroll">
+      <table>
+        <thead id="mockedHeader"></thead>
+        <tbody id="mockedGamesBody"></tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
-<div class=card>
-<p>Digite seus números e confira se você acertou:</p>
-<div id=inputsContainer></div>
-<button onclick=verificarNumeros()>Verificar</button>
+
+<div id="confetti" class="confetti hidden"></div>
+
+<div id="popup" class="overlay hidden">
+  <div id="popupContent" class="popup"></div>
 </div>
-<div class=table-wrapper>
-<div class=table-scroll>
-<table id=resultTable class=hidden>
-<thead id=resultHeader></thead>
-<tbody id=resultBody></tbody>
-</table>
-</div>
-</div>
-<div class=table-wrapper>
-<div class=table-scroll>
-<table>
-<thead id=mockedHeader></thead>
-<tbody id=mockedGamesBody></tbody>
-</table>
-</div>
-</div>
-</div>
-<div id=confetti class="confetti hidden"></div>
-<div id=popup class="overlay hidden">
-<div id=popupContent class=popup></div>
-</div>
-<script src=script.min.js></script>
-<script>function verificarSenha(){const senha=document.getElementById("passwordInput").value.trim();const error=document.getElementById("errorMessage");const gameScreen=document.getElementById("gameScreen");const participants=document.getElementById("participantsBox");const listHiae=document.getElementById("listHiae");const listFamily=document.getElementById("listFamily");const listFriends=document.getElementById("listFriends");const listNewset=document.getElementById("listNewset");error.classList.add("hidden");gameScreen.classList.add("hidden");participants.classList.add("hidden");listHiae.classList.add("hidden");listFamily.classList.add("hidden");listFriends.classList.add("hidden");listNewset.classList.add("hidden");if(!senha){error.classList.remove("hidden");return;}
-if(senha==="familia"){jogosAtuais=jogosFamilia;listFamily.classList.remove("hidden");}else if(senha==="core"){jogosAtuais=jogosEinstein;listHiae.classList.remove("hidden");}else if(senha==="newset"){jogosAtuais=jogosNewSet;listNewset.classList.remove("hidden");}else if(senha==="bora"){jogosAtuais=jogosFriends;listFriends.classList.remove("hidden");}else{error.classList.remove("hidden");return;}
-document.body.classList.remove("locked");document.getElementById("passwordScreen").classList.add("hidden");participants.classList.remove("hidden");gameScreen.classList.remove("hidden");renderInputs();renderTable();}
-function renderInputs(){const inputsContainer=document.getElementById("inputsContainer");inputsContainer.innerHTML="";const maxCols=jogosAtuais.reduce((max,game)=>Math.max(max,game.numbers.length),0);for(let i=1;i<=maxCols;i++){const input=document.createElement("input");input.type="number";input.id=`num${i}`;inputsContainer.appendChild(input);}}
-function renderTable(){const maxCols=jogosAtuais.reduce((max,game)=>Math.max(max,game.numbers.length),0);const header=`<tr><th>ID</th><th>Nome</th>${Array.from({length:maxCols}).map((_,i)=>`<th>Nº ${i+1}</th>`).join("")}</tr>`;document.getElementById("mockedHeader").innerHTML=header;document.getElementById("resultHeader").innerHTML=header;const body=document.getElementById("mockedGamesBody");body.innerHTML="";jogosAtuais.forEach(game=>{body.innerHTML+=`<tr><td>${game.id}</td><td>${game.name}</td>${Array.from({length:maxCols}).map((_,i)=>`<td>${game.numbers[i]??""}</td>`).join("")}</tr>`;});}
-function verificarNumeros(){const inputs=Array.from(document.querySelectorAll("#inputsContainer input")).map(i=>parseInt(i.value)).filter(n=>!isNaN(n));const resultBody=document.getElementById("resultBody");resultBody.innerHTML="";let quadra=0,quina=0,sena=0;const hits=new Set();jogosAtuais.forEach(game=>{const acertos=game.numbers.filter(n=>inputs.includes(n));if(acertos.length>=4){if(acertos.length===4)quadra++;if(acertos.length===5)quina++;if(acertos.length>=6)sena++;const row=`<tr><td>${game.id}</td><td>${game.name}</td>${game.numbers.map(n=>`<td class="${inputs.includes(n) ? "hit" : ""}">${n}</td>`).join("")}</tr>`;resultBody.innerHTML+=row;acertos.forEach(n=>hits.add(String(n)));}});document.getElementById("resultTable").classList.toggle("hidden",resultBody.innerHTML==="");document.querySelectorAll("#inputsContainer input").forEach(input=>{input.classList.toggle("hit-number",hits.has(input.value));});mostrarResultadoPopup(quadra,quina,sena);}
-function mostrarResultadoPopup(quadra,quina,sena){const popup=document.getElementById("popup");const content=document.getElementById("popupContent");if(quadra||quina||sena){let html=`<b>🎉 PARABÉNS!</b><br><br>`;if(sena)html+=`🏆 ${sena}SENA<br>`;if(quina)html+=`✨ ${quina}QUINA<br>`;if(quadra)html+=`🍀 ${quadra}QUADRA<br>`;content.classList.remove("sad");content.innerHTML=html;popup.classList.remove("hidden");lancarConfete();setTimeout(()=>popup.classList.add("hidden"),4200);}else{content.classList.add("sad");content.innerHTML="😢<br>Não foi dessa vez...<br><small>Tente novamente 🍀</small>";popup.classList.remove("hidden");chuvaTriste();setTimeout(()=>popup.classList.add("hidden"),3200);}}
-function lancarConfete(){const container=document.getElementById("confetti");container.innerHTML="";container.classList.remove("hidden");for(let i=0;i<120;i++){const span=document.createElement("span");span.style.left=Math.random()*100+"%";span.style.background=`hsl(${Math.random()*360},80%,60%)`;span.style.animationDuration=2+Math.random()*2+"s";container.appendChild(span);}
-setTimeout(()=>{container.classList.add("hidden");container.innerHTML="";},4000);}
-function chuvaTriste(){const container=document.getElementById("confetti");container.innerHTML="";container.classList.remove("hidden");for(let i=0;i<70;i++){const span=document.createElement("span");span.textContent="😢";span.style.left=Math.random()*100+"%";span.style.fontSize="22px";span.style.animationDuration=2+Math.random()*2+"s";container.appendChild(span);}
-setTimeout(()=>{container.classList.add("hidden");container.innerHTML="";},3200);}</script>
+
+<script src="script.min.js"></script>
+
+<script>
+/* =====================================================
+   LOGIN CORRETO — SEM VAZAMENTO
+===================================================== */
+
+function verificarSenha() {
+  const senha = document.getElementById("passwordInput").value.trim();
+
+  const error = document.getElementById("errorMessage");
+  const gameScreen = document.getElementById("gameScreen");
+  const participants = document.getElementById("participantsBox");
+
+  const listHiae = document.getElementById("listHiae");
+  const listFamily = document.getElementById("listFamily");
+  const listFriends = document.getElementById("listFriends");
+  const listNewset = document.getElementById("listNewset");
+
+  // reset total
+  error.classList.add("hidden");
+  gameScreen.classList.add("hidden");
+  participants.classList.add("hidden");
+  listHiae.classList.add("hidden");
+  listFamily.classList.add("hidden");
+  listFriends.classList.add("hidden");
+  listNewset.classList.add("hidden");
+
+  if (!senha) {
+    error.classList.remove("hidden");
+    return;
+  }
+
+  if (senha === "familia") {
+    jogosAtuais = jogosFamilia;
+    listFamily.classList.remove("hidden");
+  } else if (senha === "core") {
+    jogosAtuais = jogosEinstein;
+    listHiae.classList.remove("hidden");
+  } else if (senha === "newset") {
+    jogosAtuais = jogosNewSet;
+    listNewset.classList.remove("hidden");
+  } else if (senha === "bora") {
+    jogosAtuais = jogosFriends;
+    listFriends.classList.remove("hidden");
+  } else {
+    error.classList.remove("hidden");
+    return;
+  }
+
+  document.body.classList.remove("locked");
+  document.getElementById("passwordScreen").classList.add("hidden");
+
+  participants.classList.remove("hidden");
+  gameScreen.classList.remove("hidden");
+
+  renderInputs();
+  renderTable();
+}
+
+/* ================= RESTANTE DA LÓGICA ================= */
+
+function renderInputs() {
+  const inputsContainer = document.getElementById("inputsContainer");
+  inputsContainer.innerHTML = "";
+
+  const maxCols = jogosAtuais.reduce(
+    (max, game) => Math.max(max, game.numbers.length),
+    0
+  );
+
+  for (let i = 1; i <= maxCols; i++) {
+    const input = document.createElement("input");
+    input.type = "number";
+    input.id = `num${i}`;
+    inputsContainer.appendChild(input);
+  }
+}
+
+function renderTable() {
+  const maxCols = jogosAtuais.reduce(
+    (max, game) => Math.max(max, game.numbers.length),
+    0
+  );
+
+  const header = `
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      ${Array.from({ length: maxCols })
+        .map((_, i) => `<th>Nº ${i + 1}</th>`)
+        .join("")}
+    </tr>
+  `;
+
+  document.getElementById("mockedHeader").innerHTML = header;
+  document.getElementById("resultHeader").innerHTML = header;
+
+  const body = document.getElementById("mockedGamesBody");
+  body.innerHTML = "";
+
+  jogosAtuais.forEach(game => {
+    body.innerHTML += `
+      <tr>
+        <td>${game.id}</td>
+        <td>${game.name}</td>
+        ${Array.from({ length: maxCols })
+          .map((_, i) => `<td>${game.numbers[i] ?? ""}</td>`)
+          .join("")}
+      </tr>
+    `;
+  });
+}
+
+/* ================= VERIFICAR NÚMEROS ================= */
+
+function verificarNumeros() {
+  const inputs = Array.from(document.querySelectorAll("#inputsContainer input"))
+    .map(i => parseInt(i.value))
+    .filter(n => !isNaN(n));
+
+  const resultBody = document.getElementById("resultBody");
+  resultBody.innerHTML = "";
+
+  let quadra = 0, quina = 0, sena = 0;
+  const hits = new Set();
+
+  jogosAtuais.forEach(game => {
+    const acertos = game.numbers.filter(n => inputs.includes(n));
+
+    // 👉 registra todos os acertos SEM depender de prêmio
+    acertos.forEach(n => hits.add(String(n)));
+
+    // regras de prêmio continuam iguais
+    if (acertos.length >= 4) {
+      if (acertos.length === 4) quadra++;
+      if (acertos.length === 5) quina++;
+      if (acertos.length >= 6) sena++;
+
+      const row = `
+        <tr>
+          <td>${game.id}</td>
+          <td>${game.name}</td>
+          ${game.numbers
+            .map(
+              n => `<td class="${inputs.includes(n) ? "hit" : ""}">${n}</td>`
+            )
+            .join("")}
+        </tr>
+      `;
+
+      resultBody.innerHTML += row;
+    }
+  });
+
+  document.getElementById("resultTable").classList.toggle(
+    "hidden",
+    resultBody.innerHTML === ""
+  );
+
+  // ✅ agora SEMPRE marca os números digitados que existem nos jogos
+  document.querySelectorAll("#inputsContainer input").forEach(input => {
+    input.classList.toggle("hit-number", hits.has(input.value));
+  });
+
+  mostrarResultadoPopup(quadra, quina, sena);
+}
+
+/* ================= POPUP / CONFETE ================= */
+
+function mostrarResultadoPopup(quadra, quina, sena) {
+  const popup = document.getElementById("popup");
+  const content = document.getElementById("popupContent");
+
+  if (quadra || quina || sena) {
+    let html = `<b>🎉 PARABÉNS!</b><br><br>`;
+    if (sena) html += `🏆 ${sena} SENA<br>`;
+    if (quina) html += `✨ ${quina} QUINA<br>`;
+    if (quadra) html += `🍀 ${quadra} QUADRA<br>`;
+
+    content.classList.remove("sad");
+    content.innerHTML = html;
+    popup.classList.remove("hidden");
+
+    lancarConfete();
+    setTimeout(() => popup.classList.add("hidden"), 4200);
+  } else {
+    content.classList.add("sad");
+    content.innerHTML = "😢<br>Não foi dessa vez...<br><small>Tente novamente 🍀</small>";
+    popup.classList.remove("hidden");
+
+    chuvaTriste();
+    setTimeout(() => popup.classList.add("hidden"), 3200);
+  }
+}
+
+function lancarConfete() {
+  const container = document.getElementById("confetti");
+  container.innerHTML = "";
+  container.classList.remove("hidden");
+
+  for (let i = 0; i < 120; i++) {
+    const span = document.createElement("span");
+    span.style.left = Math.random() * 100 + "%";
+    span.style.background = `hsl(${Math.random() * 360},80%,60%)`;
+    span.style.animationDuration = 2 + Math.random() * 2 + "s";
+    container.appendChild(span);
+  }
+
+  setTimeout(() => {
+    container.classList.add("hidden");
+    container.innerHTML = "";
+  }, 4000);
+}
+
+function chuvaTriste() {
+  const container = document.getElementById("confetti");
+  container.innerHTML = "";
+  container.classList.remove("hidden");
+
+  for (let i = 0; i < 70; i++) {
+    const span = document.createElement("span");
+    span.textContent = "😢";
+    span.style.left = Math.random() * 100 + "%";
+    span.style.fontSize = "22px";
+    span.style.animationDuration = 2 + Math.random() * 2 + "s";
+    container.appendChild(span);
+  }
+
+  setTimeout(() => {
+    container.classList.add("hidden");
+    container.innerHTML = "";
+  }, 3200);
+}
+</script>
+
 </body>
 </html>
