@@ -452,6 +452,24 @@ function verificarNumeros() {
   document.querySelectorAll("#inputsContainer input").forEach(input => {
     input.classList.toggle("hit-number", hits.has(input.value));
   });
+  
+    // === MARCAR ACERTOS TAMBÉM NA TABELA DE JOGOS (MOCKED) ===
+  document.querySelectorAll("#mockedGamesBody tr").forEach(row => {
+    const cells = row.querySelectorAll("td");
+
+    cells.forEach((cell, index) => {
+      // ignora colunas ID e Nome
+      if (index < 2) return;
+
+      const value = parseInt(cell.textContent);
+
+      if (!isNaN(value) && inputs.includes(value)) {
+        cell.classList.add("hit");
+      } else {
+        cell.classList.remove("hit");
+      }
+    });
+  });
 
   mostrarResultadoPopup(quadra, quina, sena);
 }
