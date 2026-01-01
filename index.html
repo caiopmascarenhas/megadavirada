@@ -6,6 +6,7 @@
 <title>Mega da Virada</title>
 
 <style>
+/* ================= RESET ================= */
 * {
   box-sizing: border-box;
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -15,6 +16,7 @@ html, body {
   height: 100%;
 }
 
+/* ================= FUNDO ================= */
 body {
   margin: 0;
   background: #0b0f14;
@@ -29,14 +31,18 @@ body::before {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(circle at top center, rgba(70,130,255,.25), rgba(11,15,20,.95) 60%);
+    radial-gradient(
+      circle at top center,
+      rgba(70, 130, 255, 0.25),
+      rgba(11, 15, 20, 0.95) 60%
+    );
 }
 
 body.locked {
   overflow: hidden;
 }
 
-/* ===== CONTAINER ===== */
+/* ================= CONTAINER ================= */
 .app {
   min-height: 100vh;
   max-width: 1100px;
@@ -44,6 +50,7 @@ body.locked {
   padding: clamp(16px, 4vw, 32px);
 }
 
+/* ================= TÍTULO ================= */
 h1 {
   text-align: center;
   font-size: clamp(2.2rem, 4vw, 3.2rem);
@@ -51,7 +58,7 @@ h1 {
   margin-bottom: 24px;
 }
 
-/* ===== CARD ===== */
+/* ================= CARD ================= */
 .card {
   background: #141a22;
   border-radius: 20px;
@@ -60,7 +67,7 @@ h1 {
   box-shadow: 0 15px 40px rgba(0,0,0,.6);
 }
 
-/* ===== LOGIN ===== */
+/* ================= LOGIN ================= */
 .password-box {
   max-width: 420px;
   margin: auto;
@@ -101,11 +108,17 @@ button:hover {
   box-shadow: 0 14px 32px rgba(37,99,235,.45);
 }
 
+#errorMessage {
+  color: #ff6b6b;
+  margin-top: 12px;
+  font-weight: 600;
+}
+
 .hidden {
   display: none !important;
 }
 
-/* ===== PARTICIPANTES ===== */
+/* ================= PARTICIPANTES ================= */
 .participants {
   background: #0f1622;
   border-left: 4px solid #4da3ff;
@@ -115,7 +128,7 @@ button:hover {
   margin-bottom: 20px;
 }
 
-/* ===== INPUTS ===== */
+/* ================= INPUTS ================= */
 #inputsContainer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
@@ -140,7 +153,7 @@ input.hit-number {
   border-color: #22c55e;
 }
 
-/* ===== TABELA ===== */
+/* ================= TABELA ================= */
 .table-wrapper {
   width: 100%;
   margin-top: 22px;
@@ -171,15 +184,12 @@ td {
   text-align: center;
 }
 
-td.hit {
-  background: linear-gradient(135deg, #16a34a, #22c55e);
-  color: #ffffff !important;
+.hit {
+  color: #22c55e;
   font-weight: 900;
-  border-radius: 6px;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
 }
 
-/* ===== CONFETE ===== */
+/* ================= CONFETE ================= */
 .confetti {
   position: fixed;
   inset: 0;
@@ -199,7 +209,7 @@ td.hit {
   to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
 }
 
-/* ===== POPUP ===== */
+/* ================= POPUP ================= */
 .overlay {
   position: fixed;
   inset: 0;
@@ -229,11 +239,12 @@ td.hit {
 <body class="locked">
 
 <div class="app">
+
 <h1>Mega da Virada</h1>
 
 <div id="passwordScreen" class="card password-box">
   <h2>Digite a senha para acessar</h2>
-  <input id="passwordInput" type="password" class="password-input" />
+  <input id="passwordInput" type="password" class="password-input" placeholder="Senha" />
   <button onclick="verificarSenha()">Entrar</button>
   <p id="errorMessage" class="hidden">Senha incorreta ou campo vazio!</p>
 </div>
@@ -242,15 +253,31 @@ td.hit {
 
   <div id="participantsBox" class="participants hidden">
     <p id="listHiae">Participantes: Caio, Lucas, Marcelo, Thiago, Yan, Molina</p>
-    <p id="listFamily" class="hidden">Participantes: Caio, Jéssica, Jonathan, Ariane, Gilmar, Sislene, Mario, Tony/Bia, Regina, Zé, Ladin, Silvana, Danilo, Daniel</p>
-    <p id="listNewset" class="hidden">Participantes: Jéssica, Átila, Rodrigo, Fábio, David</p>
-    <p id="listFriends" class="hidden">Participantes: Caio, David, Riton</p>
+    <p id="listFamily" class="hidden">
+      Participantes: Caio, Jéssica, Jonathan, Ariane, Gilmar, Sislene,
+      Mario, Tony/Bia, Regina, Zé, Ladin, Silvana, Danilo, Daniel
+    </p>
+    <p id="listNewset" class="hidden">
+      Participantes: Jéssica, Átila, Rodrigo, Fábio, David
+    </p>
+    <p id="listFriends" class="hidden">
+      Participantes: Caio, David, Riton
+    </p>
   </div>
 
   <div class="card">
     <p>Digite seus números e confira se você acertou:</p>
     <div id="inputsContainer"></div>
     <button onclick="verificarNumeros()">Verificar</button>
+  </div>
+
+  <div class="table-wrapper">
+    <div class="table-scroll">
+      <table id="resultTable" class="hidden">
+        <thead id="resultHeader"></thead>
+        <tbody id="resultBody"></tbody>
+      </table>
+    </div>
   </div>
 
   <div class="table-wrapper">
@@ -270,76 +297,103 @@ td.hit {
   <div id="popupContent" class="popup"></div>
 </div>
 
+<script src="script.min.js"></script>
+
 <script>
-let jogosAtuais = [];
-
-const jogosFamilia = [
-  { id: 1, name: "Jogo 1", numbers: [3, 7, 12, 18, 25, 33] },
-  { id: 2, name: "Jogo 2", numbers: [5, 9, 21, 34, 45, 58] }
-];
-
-const jogosEinstein = jogosFamilia;
-const jogosNewSet = jogosFamilia;
-const jogosFriends = jogosFamilia;
-
-/* ================= LOGIN ================= */
+/* =====================================================
+   LOGIN CORRETO — SEM VAZAMENTO
+===================================================== */
 
 function verificarSenha() {
   const senha = document.getElementById("passwordInput").value.trim();
+
   const error = document.getElementById("errorMessage");
+  const gameScreen = document.getElementById("gameScreen");
+  const participants = document.getElementById("participantsBox");
 
+  const listHiae = document.getElementById("listHiae");
+  const listFamily = document.getElementById("listFamily");
+  const listFriends = document.getElementById("listFriends");
+  const listNewset = document.getElementById("listNewset");
+
+  // reset total
   error.classList.add("hidden");
+  gameScreen.classList.add("hidden");
+  participants.classList.add("hidden");
+  listHiae.classList.add("hidden");
+  listFamily.classList.add("hidden");
+  listFriends.classList.add("hidden");
+  listNewset.classList.add("hidden");
 
-  if (!senha) return error.classList.remove("hidden");
+  if (!senha) {
+    error.classList.remove("hidden");
+    return;
+  }
 
-  if (senha === "familia") jogosAtuais = jogosFamilia;
-  else if (senha === "core") jogosAtuais = jogosEinstein;
-  else if (senha === "newset") jogosAtuais = jogosNewSet;
-  else if (senha === "bora") jogosAtuais = jogosFriends;
-  else return error.classList.remove("hidden");
+  if (senha === "familia") {
+    jogosAtuais = jogosFamilia;
+    listFamily.classList.remove("hidden");
+  } else if (senha === "core") {
+    jogosAtuais = jogosEinstein;
+    listHiae.classList.remove("hidden");
+  } else if (senha === "newset") {
+    jogosAtuais = jogosNewSet;
+    listNewset.classList.remove("hidden");
+  } else if (senha === "bora") {
+    jogosAtuais = jogosFriends;
+    listFriends.classList.remove("hidden");
+  } else {
+    error.classList.remove("hidden");
+    return;
+  }
 
   document.body.classList.remove("locked");
   document.getElementById("passwordScreen").classList.add("hidden");
-  document.getElementById("gameScreen").classList.remove("hidden");
+
+  participants.classList.remove("hidden");
+  gameScreen.classList.remove("hidden");
 
   renderInputs();
   renderTable();
 }
 
-/* ================= RENDER ================= */
+/* ================= RESTANTE DA LÓGICA ================= */
 
 function renderInputs() {
-  const container = document.getElementById("inputsContainer");
-  container.innerHTML = "";
+  const inputsContainer = document.getElementById("inputsContainer");
+  inputsContainer.innerHTML = "";
 
-  const maxCols = Math.max(...jogosAtuais.map(j => j.numbers.length));
+  const maxCols = jogosAtuais.reduce(
+    (max, game) => Math.max(max, game.numbers.length),
+    0
+  );
 
-  for (let i = 0; i < maxCols; i++) {
+  for (let i = 1; i <= maxCols; i++) {
     const input = document.createElement("input");
     input.type = "number";
-    container.appendChild(input);
+    input.id = `num${i}`;
+    inputsContainer.appendChild(input);
   }
 }
 
 function renderTable() {
-  const maxCols = Math.max(...jogosAtuais.map(j => j.numbers.length));
+  const maxCols = jogosAtuais.reduce(
+    (max, game) => Math.max(max, game.numbers.length),
+    0
+  );
 
-  document.getElementById("mockedHeader").innerHTML = `
+  const header = `
     <tr>
       <th>ID</th>
       <th>Nome</th>
-      ${Array.from({ length: maxCols }).map((_, i) => `<th>Nº ${i + 1}</th>`).join("")}
+      ${Array.from({ length: maxCols })
+        .map((_, i) => `<th>Nº ${i + 1}</th>`)
+        .join("")}
     </tr>
   `;
 
-  atualizarTabelaMarcada();
-}
-
-/* ===== MARCA OS NÚMEROS NA TABELA ===== */
-function atualizarTabelaMarcada() {
-  const inputs = Array.from(document.querySelectorAll("#inputsContainer input"))
-    .map(i => parseInt(i.value))
-    .filter(n => !isNaN(n));
+  document.getElementById("mockedHeader").innerHTML = header;
+  document.getElementById("resultHeader").innerHTML = header;
 
   const body = document.getElementById("mockedGamesBody");
   body.innerHTML = "";
@@ -349,38 +403,60 @@ function atualizarTabelaMarcada() {
       <tr>
         <td>${game.id}</td>
         <td>${game.name}</td>
-        ${game.numbers.map(n => `
-          <td class="${inputs.includes(n) ? "hit" : ""}">
-            ${n}
-          </td>
-        `).join("")}
+        ${Array.from({ length: maxCols })
+          .map((_, i) => `<td>${game.numbers[i] ?? ""}</td>`)
+          .join("")}
       </tr>
     `;
   });
 }
 
-/* ===== VERIFICAR ===== */
+/* ================= VERIFICAR NÚMEROS ================= */
 
 function verificarNumeros() {
-  atualizarTabelaMarcada();
-
   const inputs = Array.from(document.querySelectorAll("#inputsContainer input"))
     .map(i => parseInt(i.value))
     .filter(n => !isNaN(n));
 
+  const resultBody = document.getElementById("resultBody");
+  resultBody.innerHTML = "";
+
   let quadra = 0, quina = 0, sena = 0;
+  const hits = new Set();
 
   jogosAtuais.forEach(game => {
     const acertos = game.numbers.filter(n => inputs.includes(n));
-    if (acertos.length === 4) quadra++;
-    if (acertos.length === 5) quina++;
-    if (acertos.length >= 6) sena++;
+
+    if (acertos.length >= 4) {
+      if (acertos.length === 4) quadra++;
+      if (acertos.length === 5) quina++;
+      if (acertos.length >= 6) sena++;
+
+      const row = `
+        <tr>
+          <td>${game.id}</td>
+          <td>${game.name}</td>
+          ${game.numbers.map(n =>
+            `<td class="${inputs.includes(n) ? "hit" : ""}">${n}</td>`
+          ).join("")}
+        </tr>
+      `;
+
+      resultBody.innerHTML += row;
+      acertos.forEach(n => hits.add(String(n)));
+    }
+  });
+
+  document.getElementById("resultTable").classList.toggle("hidden", resultBody.innerHTML === "");
+
+  document.querySelectorAll("#inputsContainer input").forEach(input => {
+    input.classList.toggle("hit-number", hits.has(input.value));
   });
 
   mostrarResultadoPopup(quadra, quina, sena);
 }
 
-/* ===== POPUP ===== */
+/* ================= POPUP / CONFETE ================= */
 
 function mostrarResultadoPopup(quadra, quina, sena) {
   const popup = document.getElementById("popup");
@@ -407,8 +483,6 @@ function mostrarResultadoPopup(quadra, quina, sena) {
     setTimeout(() => popup.classList.add("hidden"), 3200);
   }
 }
-
-/* ===== EFEITOS ===== */
 
 function lancarConfete() {
   const container = document.getElementById("confetti");
@@ -449,5 +523,9 @@ function chuvaTriste() {
   }, 3200);
 }
 </script>
+
 </body>
 </html>
+
+
+ 
